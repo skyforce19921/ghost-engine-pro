@@ -51,6 +51,9 @@ jobs:
         run: |
           export APP_ANDROID_ACCEPT_SDK_LICENSE=True
           
+          # 0. SYSTEM OVERRIDE: Nuking build cache
+          rm -rf .buildozer
+          
           # 1. First pass to fetch recipes (ignore failure)
           buildozer android debug || true
           
