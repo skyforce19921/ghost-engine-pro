@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHOST ENGINE | Web Command Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Space+Grotesk', sans-serif;
+        }
+        
+        .mono {
+            font-family: 'JetBrains+Mono', monospace;
+        }
+
+        .glow-green {
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .glow-blue {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .glow-btn:hover {
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .neon-border-green {
+            border-left: 4px solid #22c55e;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(34, 197, 94, 0.1);
+            position: absolute;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen pb-12">
+    <!-- Background Accents -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900/20 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-green-900/10 rounded-full blur-[120px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="container mx-auto px-6 py-8 flex flex-col items-center justify-center border-b border-slate-800/50 mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-white flex items-center gap-3">
+            <span class="text-green-400">👻</span> GHOST ENGINE
+        </h1>
+        <p class="text-xs uppercase tracking-[0.3em] text-slate-500 mt-2 font-medium">Web Command Interface</p>
+    </header>
+
+    <main class="container mx-auto px-4 max-w-6xl">
+        <!-- Input Section -->
+        <section class="mb-12">
+            <div class="glass-card rounded-2xl p-6 md:p-8 shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+                    <!-- Magnet Link -->
+                    <div class="lg:col-span-6">
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-bold">Paste Magnet Link</label>
+                        <input type="text" placeholder="magnet:?xt=urn:btih:..." 
+                            class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all">
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="lg:col-span-3">
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-bold">Local Payload</label>
+                        <button class="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg px-4 py-3 text-sm font-semibold transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
+                            Upload .torrent
+                        </button>
+                    </div>
+
+                    <!-- Armory Mask -->
+                    <div class="lg:col-span-3">
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2 font-bold">Armory Mask</label>
+                        <select class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-blue-500/50 transition-all appearance-none cursor-pointer">
+                            <option>qBittorrent</option>
+                            <option>Transmission</option>
+                            <option>Deluge</option>
+                        </select>
+                    </div>
+
+                    <!-- Engage Button -->
+                    <div class="lg:col-span-12 mt-4">
+                        <button class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-black text-xl py-4 rounded-xl transition-all glow-btn flex items-center justify-center gap-3 uppercase tracking-tighter">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Engage Target
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Roster Header -->
+        <div class="flex items-center gap-4 mb-6 px-2">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Active Roster</h2>
+            <div class="h-px flex-grow bg-slate-800"></div>
+            <span class="text-[10px] mono text-green-500 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">LIVE_SYSTEM_READY</span>
+        </div>
+
+        <!-- Active Roster Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Sample Card -->
+            <div class="glass-card rounded-xl overflow-hidden relative group transition-all hover:border-slate-600/50">
+                <div class="scanline opacity-20 group-hover:opacity-40"></div>
+                
+                <!-- Status Bar -->
+                <div class="bg-slate-800/50 px-4 py-2 flex justify-between items-center border-b border-slate-700/50">
+                    <span class="text-[10px] mono text-slate-400 uppercase tracking-tighter">c394b3dd...</span>
+                    <span class="flex items-center gap-1.5 text-[10px] font-bold text-green-400 uppercase tracking-widest">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        Seeding
+                    </span>
+                </div>
+
+                <!-- Monitor Content -->
+                <div class="p-5">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-bold text-white truncate mb-1">ubuntu-24.04-desktop-amd64.iso</h3>
+                        <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-500 to-green-400 h-full w-full rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="space-y-1">
+                            <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Uploaded</p>
+                            <p class="mono text-lg text-blue-400 font-bold">1.83 GB</p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Live Speed</p>
+                            <p class="mono text-lg text-green-400 font-bold">844.2 KB/s</p>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="w-full bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/30 font-bold py-2 rounded-lg transition-all text-xs uppercase tracking-widest">
+                        Nuke
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty Slot State (Optional UI element) -->
+            <div class="border-2 border-dashed border-slate-800 rounded-xl flex items-center justify-center p-8 opacity-40">
+                <p class="text-[10px] mono uppercase tracking-widest text-slate-500">Awaiting payload...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer System Stats -->
+    <footer class="fixed bottom-0 left-0 w-full bg-slate-950/80 backdrop-blur-md border-t border-slate-800 px-6 py-2 hidden md:block">
+        <div class="container mx-auto flex justify-between items-center mono text-[10px] text-slate-500">
+            <div class="flex gap-6">
+                <span>CPU: <span class="text-slate-300">12.4%</span></span>
+                <span>MEM: <span class="text-slate-300">1.2/16GB</span></span>
+                <span>NET: <span class="text-green-500">▼ 0 KB/s</span> <span class="text-blue-500">▲ 844 KB/s</span></span>
+            </div>
+            <div class="flex gap-4">
+                <span class="text-green-500/50">ENC_ENABLED</span>
+                <span class="text-slate-700">|</span>
+                <span>v4.0.2-STABLE</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

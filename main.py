@@ -151,7 +151,7 @@ ScreenManager:
                         text: "|- Uploaded -> 0.00 MB / 0.00 MB | Ratio -> 0.00"
                     MDLabel:
                         id: status_label
-                        text: "|- Status -> \ud83d\udca4 Sleeping"
+                        text: "|- Status -> 💤 Sleeping"
                     MDLabel:
                         id: speed_label
                         text: "|- Speed -> 0 KB/s"
@@ -298,7 +298,7 @@ class GhostEngineApp(MDApp):
                 'ua': ua, 'running': bool(running), 'uploaded_bytes': uploaded_bytes, 'size_mb': size_mb,
                 'speed_min': s_min, 'speed_max': s_max, 'current_speed_kb': 0, 
                 'seeders': 0, 'peers': leechers, 'next_ping': 10, 'list_item': None,
-                'status': "\u23f3 Initializing", 'announce_status': "\u23f3 Pending"
+                'status': "⏳ Initializing", 'announce_status': "⏳ Pending"
             }
             self.spawn_list_item(info_hash)
             if running: threading.Thread(target=self.tracker_loop, args=(info_hash,), daemon=True).start()
@@ -370,7 +370,7 @@ RecycleView:
             for d in dirs: data.append({'text': f'[color=FFDD00][b][ DIR ][/b][/color]   {d}', 'is_dir': True, 'filename': d})
             for f in files: data.append({'text': f'  {f}', 'is_dir': False, 'filename': f})
         except Exception:
-            data.append({'text': f'[color=FF0000]\u274c Error reading folder[/color]', 'is_dir': False, 'filename': ''})
+            data.append({'text': f'[color=FF0000]❌ Error reading folder[/color]', 'is_dir': False, 'filename': ''})
         self.rv.data = data
 
     def on_file_click(self, filename, is_dir):
@@ -389,7 +389,7 @@ RecycleView:
     def show_main_menu(self, *args):
         self.client_popup.title = "Select client identity:"
         layout = BoxLayout(orientation='vertical', spacing=10, padding=15)
-        for family, icon in [("qBittorrent", "\ud83d\udd35"), ("Transmission", "\ud83d\udd34"), ("Deluge", "\ud83d\udca7")]:
+        for family, icon in [("qBittorrent", "🔵"), ("Transmission", "🔴"), ("Deluge", "💧")]:
             btn = Button(text=f"{icon} {family}", background_color=(0.2, 0.2, 0.3, 1), font_size='20sp')
             btn.bind(on_press=lambda x, f=family: self.show_version_menu(f))
             layout.add_widget(btn)
@@ -403,21 +403,21 @@ RecycleView:
             profile = CLIENT_MASKS[client_family][version_name]
             btn.bind(on_press=lambda instance, p=profile, vn=version_name: self.show_speed_menu(p, vn))
             layout.add_widget(btn)
-        btn_back = Button(text="\u2b05 Back", background_color=(0.3, 0.3, 0.3, 1), font_size='18sp')
+        btn_back = Button(text="⬅ Back", background_color=(0.3, 0.3, 0.3, 1), font_size='18sp')
         btn_back.bind(on_press=self.show_main_menu)
         layout.add_widget(btn_back)
         self.client_popup.content = layout
 
     def show_speed_menu(self, profile, version_name):
-        self.client_popup.title = "\u2699\ufe0f Select Speed Profile:"
+        self.client_popup.title = "⚙️ Select Speed Profile:"
         layout = BoxLayout(orientation='vertical', spacing=10, padding=15)
-        btn_slow = Button(text="\ud83d\udc22 Slow (50 - 200 KB/s)", background_color=(0.2, 0.4, 0.2, 1), font_size='18sp')
+        btn_slow = Button(text="🐢 Slow (50 - 200 KB/s)", background_color=(0.2, 0.4, 0.2, 1), font_size='18sp')
         btn_slow.bind(on_press=lambda x: self.launch_payload(profile, version_name, 50, 200))
-        btn_med = Button(text="\ud83d\ude97 Medium (200 - 500 KB/s)", background_color=(0.4, 0.4, 0.2, 1), font_size='18sp')
+        btn_med = Button(text="🚗 Medium (200 - 500 KB/s)", background_color=(0.4, 0.4, 0.2, 1), font_size='18sp')
         btn_med.bind(on_press=lambda x: self.launch_payload(profile, version_name, 200, 500))
-        btn_fast = Button(text="\ud83d\ude80 Fast (500 - 1000 KB/s)", background_color=(0.5, 0.2, 0.2, 1), font_size='18sp')
+        btn_fast = Button(text="🚀 Fast (500 - 1000 KB/s)", background_color=(0.5, 0.2, 0.2, 1), font_size='18sp')
         btn_fast.bind(on_press=lambda x: self.launch_payload(profile, version_name, 500, 1000))
-        btn_back = Button(text="\u2b05 Back", background_color=(0.3, 0.3, 0.3, 1), font_size='18sp')
+        btn_back = Button(text="⬅ Back", background_color=(0.3, 0.3, 0.3, 1), font_size='18sp')
         btn_back.bind(on_press=self.show_main_menu)
         for b in [btn_slow, btn_med, btn_fast, btn_back]: layout.add_widget(b)
         self.client_popup.content = layout
@@ -483,7 +483,7 @@ RecycleView:
                 'ua': profile['ua'], 'running': True, 'uploaded_bytes': uploaded_bytes, 'size_mb': size_mb,
                 'speed_min': speed_min, 'speed_max': speed_max, 'current_speed_kb': 0,
                 'seeders': 0, 'peers': 0, 'next_ping': 10, 'list_item': None,
-                'status': "\u23f3 Initializing", 'announce_status': "\u23f3 Pending"
+                'status': "⏳ Initializing", 'announce_status': "⏳ Pending"
             }
             
             Clock.schedule_once(lambda dt: self.spawn_list_item(info_hash))
@@ -496,7 +496,7 @@ RecycleView:
         task = self.active_tasks[task_id]
         item = ThreeLineListItem(
             text=f"{task['name'][:35]}...",
-            secondary_text=f"Status: {task['status']} | \u2b06 0 KB/s",
+            secondary_text=f"Status: {task['status']} | ⬆ 0 KB/s",
             tertiary_text="Up: 0.00 MB / 0.00 MB  |  Ratio: 0.000",
             on_release=lambda x: self.open_details(task_id)
         )
@@ -510,25 +510,25 @@ RecycleView:
 
         for task_id, task in self.active_tasks.items():
             if not task['running']:
-                task['status'] = "\u23f8\ufe0f Paused"
+                task['status'] = "⏸️ Paused"
                 self.update_ui_card(task_id)
                 continue
 
             up_mb = task['uploaded_bytes'] / (1024*1024)
             if task['size_mb'] > 0.05 and up_mb >= task['size_mb']:
-                task['status'] = "\u2705 Completed"
+                task['status'] = "✅ Completed"
                 task['current_speed_kb'] = 0.0
                 self.update_ui_card(task_id)
                 continue
 
             if task['peers'] == 0:
-                task['status'] = "\ud83d\udc7b Lurking (0 Leechers)"
+                task['status'] = "👻 Lurking (0 Leechers)"
                 task['current_speed_kb'] = 0.0
             elif is_sleeping:
-                task['status'] = "\ud83d\udca4 Sleeping (Humanized)"
+                task['status'] = "💤 Sleeping (Humanized)"
                 task['current_speed_kb'] = 0.0
             else:
-                task['status'] = "\ud83d\ude80 Seeding (Ghost)"
+                task['status'] = "🚀 Seeding (Ghost)"
                 var = random.uniform(-15.0, 15.0)
                 base = task['current_speed_kb'] if task['current_speed_kb'] > 0 else task['speed_min']
                 new_speed = base + var
@@ -599,7 +599,7 @@ RecycleView:
         is_udp = task['tracker_url'].startswith("udp://")
         
         success, msg = self.announce_udp(task, 'started') if is_udp else self.announce_http(task, 'started')
-        task['announce_status'] = "\u2705 Announce OK" if success else f"\u274c {msg}"
+        task['announce_status'] = "✅ Announce OK" if success else f"❌ {msg}"
         
         interval = 1800 if success else 60
         task['next_ping'] = interval
@@ -607,19 +607,19 @@ RecycleView:
         while task_id in self.active_tasks and task['running']:
             for _ in range(interval):
                 if task_id not in self.active_tasks or not task['running']: break
-                if task['status'] == "\u2705 Completed": break
+                if task['status'] == "✅ Completed": break
                 time.sleep(1)
             
             if task_id not in self.active_tasks or not task['running']: break
             
-            if task['status'] == "\u2705 Completed":
+            if task['status'] == "✅ Completed":
                 success, msg = self.announce_udp(task, 'completed') if is_udp else self.announce_http(task, 'completed')
-                task['announce_status'] = "\u2705 Announce OK" if success else f"\u274c {msg}"
+                task['announce_status'] = "✅ Announce OK" if success else f"❌ {msg}"
                 task['running'] = False
                 break
                 
             success, msg = self.announce_udp(task) if is_udp else self.announce_http(task)
-            task['announce_status'] = "\u2705 Announce OK" if success else f"\u274c {msg}"
+            task['announce_status'] = "✅ Announce OK" if success else f"❌ {msg}"
             
             interval = 1800 if success else 60
             task['next_ping'] = interval
@@ -643,7 +643,7 @@ RecycleView:
         time_str = self.format_time(task['next_ping'])
 
         if task['list_item']:
-            task['list_item'].secondary_text = f"{task['status']} | \u2b06 {int(task['current_speed_kb'])} KB/s"
+            task['list_item'].secondary_text = f"{task['status']} | ⬆ {int(task['current_speed_kb'])} KB/s"
             task['list_item'].tertiary_text = f"Up: {up_str} / {tot_str}  |  Ratio: {ratio:.3f}"
             
         if self.current_viewing_id == task_id:
@@ -654,7 +654,7 @@ RecycleView:
             ds.detail_uploaded.text = f"|- Uploaded -> {up_str} / {tot_str} | Ratio -> {ratio:.3f}"
             ds.speed_label.text = f"|- Speed -> {int(task['current_speed_kb'])} KB/s"
             ds.status_label.text = f"|- Status -> {task['status']}"
-            ds.detail_announce.text = f"|- Announce -> {task.get('announce_status', '\u23f3 Pending')} | Next -> {time_str}"
+            ds.detail_announce.text = f"|- Announce -> {task.get('announce_status', '⏳ Pending')} | Next -> {time_str}"
             ds.detail_peers.text = f"\\- Seeders -> {task['seeders']} | Leechers -> {task['peers']}"
 
     def toggle_seed(self):
